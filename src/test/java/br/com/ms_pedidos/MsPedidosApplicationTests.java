@@ -1,5 +1,6 @@
 package br.com.ms_pedidos;
 
+import br.com.ms_pedidos.gateway.impl.PedidoGatewayTest;
 import br.com.ms_pedidos.usecase.impl.FilaPedidosPreparacaoUseCaseTest;
 import br.com.ms_pedidos.usecase.impl.PedidoUseCaseTest;
 import org.junit.jupiter.api.Nested;
@@ -13,4 +14,7 @@ class MsPedidosApplicationTests {
 
 	@Nested
 	class PedidoUseCaseTests extends PedidoUseCaseTest {}
+
+	@Nested
+	class PedidoGatewayTests extends PedidoGatewayTest {}
 }

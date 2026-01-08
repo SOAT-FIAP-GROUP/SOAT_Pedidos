@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 @DisplayName("Given the class PedidoGateway")
 @ExtendWith(MockitoExtension.class)
-class PedidoGatewayTest {
+public class PedidoGatewayTest {
 
     @Mock
     private PedidoRepository pedidoRepository;
