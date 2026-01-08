@@ -24,6 +24,11 @@ spec:
             configMapKeyRef:
               name: pedido-config
               key: spring.datasource.url
+        - name: SERVICE_URL_PRODUTO
+          valueFrom:
+            configMapKeyRef:
+              name: pedido-config
+              key: services.produto.url
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             configMapKeyRef:
