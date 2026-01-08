@@ -50,14 +50,6 @@ public class PedidoAPIController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("remover/fila/{codigoPedido}")
-    @Transactional
-    @Operation(summary = "Remove pedido da fila de preparo", description = "Remove pedido da fila de preparo com base no código do pedido")
-    public ResponseEntity<Void> removerPedidoDaFilaDePreparo(@PathVariable Long codigoPedido) {
-        pedidoController.removerPedidoDaFila(codigoPedido);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-    }
-
     @GetMapping("listarPedidos")
     @Transactional
     @Operation(summary = "Lista pedidos de forma ordenada", description = "Lista pedidos de forma ordenada por Status e Tempo")
