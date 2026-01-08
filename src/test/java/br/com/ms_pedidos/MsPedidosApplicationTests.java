@@ -1,13 +1,20 @@
 package br.com.ms_pedidos;
 
-import org.junit.jupiter.api.Test;
+import br.com.ms_pedidos.gateway.impl.PedidoGatewayTest;
+import br.com.ms_pedidos.usecase.impl.FilaPedidosPreparacaoUseCaseTest;
+import br.com.ms_pedidos.usecase.impl.PedidoUseCaseTest;
+import org.junit.jupiter.api.Nested;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class MsPedidosApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+	@Nested
+	class FilaPedidosPreparacaoTests extends FilaPedidosPreparacaoUseCaseTest {}
 
+	@Nested
+	class PedidoUseCaseTests extends PedidoUseCaseTest {}
+
+	@Nested
+	class PedidoGatewayTests extends PedidoGatewayTest {}
 }
