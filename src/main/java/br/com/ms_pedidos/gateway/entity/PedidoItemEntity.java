@@ -24,15 +24,12 @@ public class PedidoItemEntity {
     @JsonIgnore
     private PedidoEntity pedido;
 
-    @Column(name = "produtocodigo")
     private Long produtoCodigo;
 
     private int quantidade;
 
-    @Column(name = "precounitario")
     private BigDecimal precoUnitario;
 
-    @Column(name = "precototal")
     private BigDecimal precoTotal;
 
 
