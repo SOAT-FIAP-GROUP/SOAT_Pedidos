@@ -35,10 +35,6 @@ public class PedidoController {
         return pedidoMapper.toResponse(pedidoUseCase.alterarPedido(codigo, status));
     }
 
-    public void removerPedidoDaFila(Long codigoPedido) {
-        pedidoUseCase.removerPedidoDaFila(codigoPedido);
-    }
-
     public List<PedidoResponse> listaPedidosOrd() {
         return pedidoUseCase.listaPedidosOrd().stream().map(pedidoMapper::toResponse)
                 .collect(Collectors.toList());

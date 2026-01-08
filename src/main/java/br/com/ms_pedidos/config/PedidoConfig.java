@@ -6,11 +6,8 @@ import br.com.ms_pedidos.controller.mapper.PedidoItemMapper;
 import br.com.ms_pedidos.controller.mapper.PedidoMapper;
 import br.com.ms_pedidos.gateway.IPedidoGateway;
 import br.com.ms_pedidos.gateway.IProdutoGateway;
-import br.com.ms_pedidos.gateway.impl.FilaPedidosPreparacaoGateway;
 import br.com.ms_pedidos.gateway.impl.PedidoGateway;
-import br.com.ms_pedidos.gateway.persistence.jpa.FilaPedidosPreparacaoRepository;
 import br.com.ms_pedidos.gateway.persistence.jpa.PedidoRepository;
-import br.com.ms_pedidos.usecase.IFilaPedidosPreparacaoUseCase;
 import br.com.ms_pedidos.usecase.IPedidoUseCase;
 import br.com.ms_pedidos.usecase.impl.PedidoUseCase;
 import org.springframework.context.annotation.Bean;
@@ -40,8 +37,8 @@ public class PedidoConfig {
     }
 
     @Bean
-    PedidoUseCase pedidoUseCase(IPedidoGateway pedidoGateway, IProdutoGateway produtoGateway, IFilaPedidosPreparacaoUseCase filaPedidosPreparacaoUseCase) {
-        return new PedidoUseCase(pedidoGateway, produtoGateway, filaPedidosPreparacaoUseCase);
+    PedidoUseCase pedidoUseCase(IPedidoGateway pedidoGateway, IProdutoGateway produtoGateway) {
+        return new PedidoUseCase(pedidoGateway, produtoGateway);
     }
 
     @Bean
@@ -49,8 +46,4 @@ public class PedidoConfig {
         return new PedidoGateway(pedidoRepository);
     }
 
-    @Bean
-    FilaPedidosPreparacaoGateway filaPedidosPreparacaoGateway(FilaPedidosPreparacaoRepository filaPedidosPreparacaoRepository) {
-        return new FilaPedidosPreparacaoGateway(filaPedidosPreparacaoRepository);
-    }
 }

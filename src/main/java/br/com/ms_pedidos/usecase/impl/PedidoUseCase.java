@@ -1,6 +1,5 @@
 package br.com.ms_pedidos.usecase.impl;
 
-import br.com.ms_pedidos.entity.FilaPedidosPreparacao;
 import br.com.ms_pedidos.entity.Pedido;
 import br.com.ms_pedidos.entity.PedidoItem;
 import br.com.ms_pedidos.entity.enums.StatusPedidoEnum;
@@ -8,7 +7,6 @@ import br.com.ms_pedidos.exception.EntityNotFoundException;
 import br.com.ms_pedidos.gateway.IPedidoGateway;
 import br.com.ms_pedidos.gateway.IProdutoGateway;
 import br.com.ms_pedidos.gateway.impl.http.response.dto.ProdutoResponse;
-import br.com.ms_pedidos.usecase.IFilaPedidosPreparacaoUseCase;
 import br.com.ms_pedidos.usecase.IPedidoUseCase;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
@@ -26,12 +24,10 @@ import java.util.stream.Collectors;
 public class PedidoUseCase implements IPedidoUseCase {
     private final IPedidoGateway pedidoGateway;
     private final IProdutoGateway produtoGateway;
-    private final IFilaPedidosPreparacaoUseCase filaPedidosPreparacaoUseCase;
 
-    public PedidoUseCase(IPedidoGateway pedidoGateway, IProdutoGateway produtoGateway, IFilaPedidosPreparacaoUseCase filaPedidosPreparacaoUseCase) {
+    public PedidoUseCase(IPedidoGateway pedidoGateway, IProdutoGateway produtoGateway) {
         this.pedidoGateway = pedidoGateway;
         this.produtoGateway = produtoGateway;
-        this.filaPedidosPreparacaoUseCase = filaPedidosPreparacaoUseCase;
     }
 
     @Override
@@ -104,19 +100,6 @@ public class PedidoUseCase implements IPedidoUseCase {
         Pedido pedido = this.buscarPedido(id);
         Pedido pedidoAtualizar = pedido.withStatus(status);
         return pedidoGateway.save(pedidoAtualizar);
-    }
-
-    @Override
-    public FilaPedidosPreparacao adicionarPedidoNaFila(Long id) {
-        Pedido pedido = this.buscarPedido(id);
-        FilaPedidosPreparacao filaPedidosPreparacao = new FilaPedidosPreparacao(null, pedido);
-        return filaPedidosPreparacaoUseCase.salvar(filaPedidosPreparacao);
-    }
-
-    @Override
-    public void removerPedidoDaFila(Long id) {
-        FilaPedidosPreparacao filaPedidosPreparacao = filaPedidosPreparacaoUseCase.findByPedidoPorId(id);
-        filaPedidosPreparacaoUseCase.removerPedidoDaFila(filaPedidosPreparacao);
     }
 
     @Override
