@@ -27,7 +27,6 @@ public class PedidoEntity {
     private Long codigo;
 
     @JoinColumn(name = "usuariocodigo")
-    @Column(name = "usuariocodigo")
     private Long usuario;
 
     @Enumerated(EnumType.STRING)
