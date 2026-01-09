@@ -1,4 +1,3 @@
-
 CREATE TABLE pedidoitem (
     codigo BIGINT NOT NULL AUTO_INCREMENT,
     pedidocodigo BIGINT NULL,
