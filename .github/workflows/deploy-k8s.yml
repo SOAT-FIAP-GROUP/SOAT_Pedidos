@@ -65,7 +65,7 @@ jobs:
           envsubst < k8s/configmap.yaml > k8s/configmap_rendered.yaml
 
       - name: Update kubeconfig
-        run: aws eks update-kubeconfig --name pedido-app-dev --region ${{ vars.AWS_REGION }}
+        run: aws eks update-kubeconfig --name lanchonete-app-dev --region ${{ vars.AWS_REGION }}
 
       - name: Apply Kubernetes manifests
         run: |
