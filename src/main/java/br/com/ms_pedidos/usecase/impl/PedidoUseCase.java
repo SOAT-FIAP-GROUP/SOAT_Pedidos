@@ -39,7 +39,7 @@ public class PedidoUseCase implements IPedidoUseCase {
     @Override
     public Pedido criarPedido(Pedido pedido) {
 
-        Pedido pedidoSalvar = pedido.preSalvar(pedido.idUsuario(), pedido.status(), pedido.dataHoraSolicitacao());
+        Pedido pedidoSalvar = pedido.preSalvar(pedido.idUsuario(), pedido.status(),pedido.dataHoraSolicitacao());
 
         Set<ProdutoResponse> listProdutos = produtoGateway.listaProdutosPedidosSet(pedido.itens().stream().map(PedidoItem::id).collect(Collectors.toSet()));
 
@@ -50,12 +50,19 @@ public class PedidoUseCase implements IPedidoUseCase {
         List<PedidoItem> itens = pedido.itens().stream()
                 .map(item -> {
                     ProdutoResponse produtoResponse = listProdutos.stream()
-                            .filter(p -> item.id().equals(p.id()))
+                            .filter(p ->item.id().equals(p.id()))
                             .findFirst()
                             .orElse(null);
 
-                    Duration tempoItem = Duration.between(LocalTime.MIDNIGHT, produtoResponse != null ? produtoResponse.tempopreparo().toLocalTime() : null)
-                            .multipliedBy(item.quantidade());
+//                    Duration tempoItem = Duration.between(LocalTime.MIDNIGHT, produtoResponse != null ? produtoResponse.tempopreparo().toLocalTime() : null)
+//                            .multipliedBy(item.quantidade());
+
+                    Duration tempoItem;
+                    if(produtoResponse != null){
+                        tempoItem = Duration.between(LocalTime.MIDNIGHT, produtoResponse.tempopreparo().toLocalTime()).multipliedBy(item.quantidade());
+                    }
+                    else throw new EntityNotFoundException(ProdutoResponse.class, "");
+
                     totalPreparo.updateAndGet(tp -> tp.plus(tempoItem));
                     return new PedidoItem(null, pedidoSalvo.id(), produtoResponse.id(), item.quantidade(), produtoResponse.preco(),
                             produtoResponse.preco().multiply(BigDecimal.valueOf(item.quantidade())));
