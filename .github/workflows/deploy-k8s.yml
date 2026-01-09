@@ -57,7 +57,7 @@ jobs:
 
       - name: Render ConfigMap
         run: |
-          export SPRING_DATASOURCE_URL="${{ steps.tf_outputs.outputs.SPRING_DATASOURCE_URL }}"
+          export SPRING_DATASOURCE_URL="${{ steps.ssm.outputs.SPRING_DATASOURCE_URL }}"
           export SPRING_DATASOURCE_USERNAME="${{ steps.ssm.outputs.SPRING_DATASOURCE_USERNAME }}"
           export SPRING_DATASOURCE_NAME="${{ steps.ssm.outputs.SPRING_DATASOURCE_NAME }}"
           export SPRING_ACTIVE_PROFILE="${{ steps.ssm.outputs.SPRING_ACTIVE_PROFILE }}"
