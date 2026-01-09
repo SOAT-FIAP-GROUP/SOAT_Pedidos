@@ -67,6 +67,13 @@ jobs:
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name lanchonete-app-dev --region ${{ vars.AWS_REGION }}
 
+      - name: Apply Kubernetes Secrets
+        if: ${{ inputs.destroy != 'true' }}
+        run: |
+          kubectl create secret generic pedido-secret \
+            --from-literal=spring.datasource.password=${{ steps.ssm.outputs.SPRING_DATASOURCE_PASSWORD }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f k8s/
