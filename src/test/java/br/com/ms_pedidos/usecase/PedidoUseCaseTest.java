@@ -69,6 +69,20 @@ public class PedidoUseCaseTest {
     }
 
     @Test
+    void deveGerarExcecaoProdutoNulo() {
+        Pedido pedido = MockGenerator.generatePedidoMockSemId();
+        Set<ProdutoResponse> produtoResponseSet = new HashSet<>();
+
+        Pedido pedidoSalvo = new Pedido(1L, pedido.idUsuario(), pedido.status(), null, pedido.dataHoraSolicitacao(), Time.valueOf("00:10:00"), List.of());
+        when(produtoGateway.listaProdutosPedidosSet(anySet())).thenReturn(produtoResponseSet);
+        when(pedidoGateway.save(any())).thenReturn(pedidoSalvo);
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            pedidoUseCase.criarPedido(pedido);
+        });
+    }
+
+    @Test
     void deveLancarExcecaoAoCriarPedidoSemItens() {
         Pedido pedido = MockGenerator.generatePedidoMockComItensVazios();
 
@@ -100,6 +114,7 @@ public class PedidoUseCaseTest {
 
         assertEquals(StatusPedidoEnum.PRONTO, result.status());
     }
+
     @Test
     void deveListarPedidosOrdenados() {
         Pedido pedido = MockGenerator.generatePedidoMock();
