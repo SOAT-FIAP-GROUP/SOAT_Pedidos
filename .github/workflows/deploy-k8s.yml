@@ -40,13 +40,6 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Get Terraform outputs (RDS)
-        if: ${{ inputs.destroy != 'true' }}
-        id: tf_outputs
-        run: |
-          SPRING_DATASOURCE_URL=$(terraform output -raw db_instance_endpoint_pedido)
-          echo "SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL" >> $GITHUB_OUTPUT
-
       - name: Get SSM parameters
         id: ssm
         run: |
@@ -54,10 +47,13 @@ jobs:
           SPRING_DATASOURCE_NAME=$(aws ssm get-parameter --name "SPRING_DATASOURCE_NAME" --with-decryption --query "Parameter.Value" --output text)
           SPRING_DATASOURCE_USERNAME=$(aws ssm get-parameter --name "SPRING_DATASOURCE_USERNAME" --with-decryption --query "Parameter.Value" --output text)
           SPRING_DATASOURCE_PASSWORD=$(aws ssm get-parameter --name "SPRING_DATASOURCE_PASSWORD" --with-decryption --query "Parameter.Value" --output text)
+          SPRING_DATASOURCE_URL=$(aws ssm get-parameter --name "SPRING_DATASOURCE_URL_PEDIDO" --with-decryption --query "Parameter.Value" --output text)
+          
           echo "SPRING_ACTIVE_PROFILE=$SPRING_ACTIVE_PROFILE" >> $GITHUB_OUTPUT
           echo "SPRING_DATASOURCE_NAME=$SPRING_DATASOURCE_NAME" >> $GITHUB_OUTPUT
           echo "SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME" >> $GITHUB_OUTPUT
           echo "SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD" >> $GITHUB_OUTPUT
+          echo "SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL" >> $GITHUB_OUTPUT
 
       - name: Render ConfigMap
         run: |
