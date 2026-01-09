@@ -54,8 +54,15 @@ public class PedidoUseCase implements IPedidoUseCase {
                             .findFirst()
                             .orElse(null);
 
-                    Duration tempoItem = Duration.between(LocalTime.MIDNIGHT, produtoResponse != null ? produtoResponse.tempopreparo().toLocalTime() : null)
-                            .multipliedBy(item.quantidade());
+//                    Duration tempoItem = Duration.between(LocalTime.MIDNIGHT, produtoResponse != null ? produtoResponse.tempopreparo().toLocalTime() : null)
+//                            .multipliedBy(item.quantidade());
+
+                    Duration tempoItem;
+                    if(produtoResponse != null){
+                        tempoItem = Duration.between(LocalTime.MIDNIGHT, produtoResponse.tempopreparo().toLocalTime()).multipliedBy(item.quantidade());
+                    }
+                    else tempoItem = null;
+
                     totalPreparo.updateAndGet(tp -> tp.plus(tempoItem));
                     return new PedidoItem(null, pedidoSalvo.id(), produtoResponse.id(), item.quantidade(), produtoResponse.preco(),
                             produtoResponse.preco().multiply(BigDecimal.valueOf(item.quantidade())));
